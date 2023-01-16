@@ -1,34 +1,54 @@
 from tkinter import *
-task=[]
-root=Tk()#instatiating
-root.title("to-do list")#title of the window
-root.geometry("500x500")#resizing the window
-label=Label(root,text="TO DO LIST",font=("Arial",30))
-label.pack()
-#functions
+task =[]
+#fuctions
 def addstuff():
     content=stuff.get()
-    task.append(content)    
-    display = Listbox(root,font=('Helvetica', 12), height=12, width=500)#creating listbok
-    display.place(x=0,y=50)
+    task.append(content)
+    count=len(task)
     for i in task:
-        display.insert(END,i)
-#inputing tasks
-stuff=Entry(root,font=("Arial"),width=37)
-stuff.place(x=60,y=350)
+        if task.index(i)==count-1:
+            display.insert(END,i)
+    stuff.delete(0,END)
 
-#delete,quit and new
-delete = Button(root, text = 'Quit',command = root.destroy,height= 5, width=25) 
-delete.pack(anchor='s',side = 'right')
-new = Button(root, text = 'Add',height= 5, width=25,command = addstuff) 
-new.pack(anchor='sw',side='left')
-remove = Button(root, text = 'Remove',height= 5, width=25) 
-remove.pack(anchor='s',side='bottom')
+def remove():
+    for item in display.curselection():
+        a=int(item)
+        task.pop(a)
+        display.delete(display.curselection())
 
-#showing all tasks
-display = Listbox(root,font=('Helvetica', 12), height=12, width=500)#creating listbok
+#window
+window=Tk()
+window.title("to-do list")
+window.geometry("500x500")
+label=Label(window,text="TO DO LIST",font=("Arial",30)).pack()
+
+#listbox
+display = Listbox(window,font=('Helvetica', 12), height=12, width=500)
 display.place(x=0,y=50)
+
+#scroll bar
+scrollbar = Scrollbar(window)
+scrollbar.pack(side = RIGHT, fill = BOTH)
+display.config(yscrollcommand = scrollbar.set)
+scrollbar.config(command = display.yview)
+
+
+
+#insert task
 for i in task:
     display.insert(END,i)
 
-root.mainloop()
+#inputing tasks
+stuff=Entry(window,font=("Arial"),width=37)
+stuff.place(x=60,y=350)
+
+
+#delete,quit and new
+delete = Button(window, text = 'Quit',command = window.destroy,height= 5, width=25) 
+delete.pack(anchor='s',side = 'right')
+new = Button(window, text = 'Add',height= 5, width=25,command = addstuff) 
+new.pack(anchor='sw',side='left')
+remove = Button(window, text = 'Remove',height= 5, width=25, command = remove ) 
+remove.pack(anchor='s',side='bottom')
+
+window.mainloop()

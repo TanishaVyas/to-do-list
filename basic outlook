@@ -1,0 +1,34 @@
+from tkinter import *
+task=[]
+root=Tk()#instatiating
+root.title("to-do list")#title of the window
+root.geometry("500x500")#resizing the window
+label=Label(root,text="TO DO LIST",font=("Arial",30))
+label.pack()
+#functions
+def addstuff():
+    content=stuff.get()
+    task.append(content)    
+    display = Listbox(root,font=('Helvetica', 12), height=12, width=500)#creating listbok
+    display.place(x=0,y=50)
+    for i in task:
+        display.insert(END,i)
+#inputing tasks
+stuff=Entry(root,font=("Arial"),width=37)
+stuff.place(x=60,y=350)
+
+#delete,quit and new
+delete = Button(root, text = 'Quit',command = root.destroy,height= 5, width=25) 
+delete.pack(anchor='s',side = 'right')
+new = Button(root, text = 'Add',height= 5, width=25,command = addstuff) 
+new.pack(anchor='sw',side='left')
+remove = Button(root, text = 'Remove',height= 5, width=25) 
+remove.pack(anchor='s',side='bottom')
+
+#showing all tasks
+display = Listbox(root,font=('Helvetica', 12), height=12, width=500)#creating listbok
+display.place(x=0,y=50)
+for i in task:
+    display.insert(END,i)
+
+root.mainloop()
